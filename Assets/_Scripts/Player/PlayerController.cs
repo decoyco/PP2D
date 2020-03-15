@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
     private Player player;
     private CharacterController2D controller;
-    //private Animator anim;
+    private Animator anim;
 
     public bool canMove
     {
@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
         player = GetComponent<Player>();
         controller = GetComponent<CharacterController2D>();
         controller.rb = GetComponent<Rigidbody2D>();
@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
                     wallJump = player.wallJumpForce;
                     jump = player.jumpForce;
                     jumping = true;
+                    Debug.Log("walljump");
                 }
                 else if (player.isGrounded)
                 {
@@ -67,13 +68,13 @@ public class PlayerController : MonoBehaviour
             //Horizontal
             horizontalMove = player.isGrounded ? player.speed * Input.GetAxisRaw("Horizontal") * Time.deltaTime : (player.speed * Input.GetAxisRaw("Horizontal") * Time.deltaTime) / 3;
             //Move
-            controller.move(new Vector2(horizontalMove + (wallJump.x * player.wallCling), jump * wallJump.y), player.maxSpeed);
+            controller.move(new Vector2(horizontalMove + (wallJump.x * player.wallCling * jump), jump * wallJump.y), player.maxSpeed);
             #endregion
         }
-        // #region Animation
-        // if (horizontalMove != 0)
-        //     player.facingRight = horizontalMove > 0 ? true : false;
-        // anim.SetFloat("Speed", Mathf.Abs(horizontalMove));
-        // #endregion
+        #region Animation
+        if (horizontalMove != 0)
+            player.facingRight = horizontalMove > 0 ? true : false;
+        anim.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        #endregion
     }
 }

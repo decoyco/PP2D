@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     public float maxSpeed = 10f;
     public Vector2 wallJumpForce = new Vector2(-1, 0.5f);
 
+    public int weightStatus = 0;
+
     private LayerMask mask;
     
     protected Rigidbody2D rb;

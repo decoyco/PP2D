@@ -5,13 +5,15 @@ using UnityEngine;
 //Player defining class, contains player traits, inherits Entity
 public class Player : MonoBehaviour
 {
+    
     public float speed = 1f;
     public float jumpForce = 1f;
     public float maxSpeed = 10f;
-    public Vector2 wallJumpForce = new Vector2(-1, 0.5f);
+    //sets force multiplier applied on wall jump SHOULD BE POSITIVE
+    public Vector2 wallJumpForce = new Vector2(1, 0.5f);
 
     private LayerMask mask;
-    
+    private bool face;
     protected Rigidbody2D rb;
     protected CharacterController2D controller;
 
@@ -28,6 +30,18 @@ public class Player : MonoBehaviour
                     return false;
             }
         }
+
+        public bool facingRight
+    {
+        get { return face; }
+        set
+        {
+            face = value;
+            Vector3 theScale = transform.localScale;
+            theScale.x = face ? 1 : -1;
+            transform.localScale = theScale;
+        }
+    }
 
         //Checks if player is next to wall and running against wall.
         //Returns 1 if clinging to right, -1 if left, 0 if not at all
